@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indian Standards Calculator — How Rare Is Your Ideal Match?</title>
+  <meta name="description" content="Estimate how rare your ideal match is among Indian men. A fun, data-driven demographic preference calculator." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES & RESET
+       ======================================== */
+    :root {
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+      /* Dark theme (default) */
+      --bg:          #0c0c0f;
+      --bg-card:     #16161a;
+      --bg-card-alt: #1c1c22;
+      --bg-input:    #22222a;
+      --border:      #2a2a34;
+      --text:        #e8e8ed;
+      --text-muted:  #8888a0;
+      --text-dim:    #5c5c72;
+      --accent:      #f59e0b;          /* saffron / amber */
+      --accent-soft: rgba(245,158,11,0.12);
+      --accent-glow: rgba(245,158,11,0.25);
+      --green:       #22c55e;
+      --red:         #ef4444;
+      --blue:        #3b82f6;
+      --purple:      #a855f7;
+      --shadow:      0 4px 24px rgba(0,0,0,0.4);
+      --shadow-sm:   0 2px 8px rgba(0,0,0,0.3);
+      --radius:      12px;
+      --radius-sm:   8px;
+      --radius-xs:   6px;
+      --transition:  0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="light"] {
+      --bg:          #f4f4f7;
+      --bg-card:     #ffffff;
+      --bg-card-alt: #f0f0f5;
+      --bg-input:    #e8e8ee;
+      --border:      #d4d4de;
+      --text:        #1a1a2e;
+      --text-muted:  #6b6b80;
+      --text-dim:    #9999aa;
+      --accent:      #d97706;
+      --accent-soft: rgba(217,119,6,0.1);
+      --accent-glow: rgba(217,119,6,0.2);
+      --shadow:      0 4px 24px rgba(0,0,0,0.08);
+      --shadow-sm:   0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    /* ========================================
+       BASE RESET
+       ======================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ========================================
+       LAYOUT
+       ======================================== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ========================================
+       HEADER
+       ======================================== */
+    header {
+      padding: 28px 0 20px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .logo-group { display: flex; flex-direction: column; gap: 2px; }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      color: #000;
+      font-weight: 900;
+    }
+
+    .tagline {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 400;
+      padding-left: 46px;
+    }
+
+    /* Theme toggle */
+    .theme-toggle {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+      transition: all var(--transition);
+      flex-shrink: 0;
+    }
+
+    .theme-toggle:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    /* ========================================
+       MAIN GRID
+       ======================================== */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 28px 0 60px;
+    }
+
+    @media (min-width: 860px) {
+      .main-grid {
+        grid-template-columns: 1fr 380px;
+        gap: 32px;
+        align-items: start;
+      }
+    }
+
+    /* ========================================
+       CARDS
+       ======================================== */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+    }
+
+    .card-title .icon {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-xs);
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       FORM CONTROLS
+       ======================================== */
+    .filter-group {
+      margin-bottom: 22px;
+      animation: fadeSlideIn 0.4s ease both;
+    }
+
+    .filter-group:nth-child(1)  { animation-delay: 0.02s; }
+    .filter-group:nth-child(2)  { animation-delay: 0.04s; }
+    .filter-group:nth-child(3)  { animation-delay: 0.06s; }
+    .filter-group:nth-child(4)  { animation-delay: 0.08s; }
+    .filter-group:nth-child(5)  { animation-delay: 0.10s; }
+    .filter-group:nth-child(6)  { animation-delay: 0.12s; }
+    .filter-group:nth-child(7)  { animation-delay: 0.14s; }
+    .filter-group:nth-child(8)  { animation-delay: 0.16s; }
+    .filter-group:nth-child(9)  { animation-delay: 0.18s; }
+    .filter-group:nth-child(10) { animation-delay: 0.20s; }
+    .filter-group:nth-child(11) { animation-delay: 0.22s; }
+    .filter-group:nth-child(12) { animation-delay: 0.24s; }
+    .filter-group:nth-child(13) { animation-delay: 0.26s; }
+    .filter-group:nth-child(14) { animation-delay: 0.28s; }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .filter-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .filter-label .value-badge {
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 0.82rem;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .filter-hint {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    /* Tooltip */
+    .has-tooltip {
+      position: relative;
+      cursor: help;
+    }
+
+    .has-tooltip::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) scale(0.95);
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      padding: 6px 10px;
+      border-radius: var(--radius-xs);
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s ease;
+      z-index: 10;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .has-tooltip:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    /* Select / Dropdown */
+    select, input[type="number"] {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: all var(--transition);
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238888a0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+
+    [data-theme="light"] select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6b80' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    }
+
+    select:focus, input[type="number"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    select:hover, input[type="number"]:hover {
+      border-color: var(--text-dim);
+    }
+
+    /* Age row */
+    .age-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .age-row label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    /* Range slider */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: var(--bg-input);
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(245,158,11,0.3);
+      transition: all var(--transition);
+      border: 2px solid var(--bg-card);
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      box-shadow: 0 2px 12px rgba(245,158,11,0.4);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+      border: 2px solid var(--bg-card);
+      box-shadow: 0 2px 6px rgba(245,158,11,0.3);
+    }
+
+    input[type="range"]:focus {
+      border-color: var(--accent);
+    }
+
+    /* Toggle switch */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .toggle-row .filter-label {
+      margin-bottom: 0;
+      flex: 1;
+    }
+
+    .switch {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+    }
+
+    .switch-slider {
+      position: absolute;
+      inset: 0;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .switch-slider::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      top: 2px;
+      left: 2px;
+      transition: all var(--transition);
+    }
+
+    .switch input:checked + .switch-slider {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+    }
+
+    .switch input:checked + .switch-slider::before {
+      background: var(--accent);
+      transform: translateX(22px);
+    }
+
+    .switch input:focus-visible + .switch-slider {
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    /* Separator */
+    .filter-separator {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 20px 0;
+      opacity: 0.5;
+    }
+
+    /* Button row */
+    .button-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      border: 1px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      border-color: var(--accent);
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 4px 16px var(--accent-glow);
+    }
+
+    .btn-secondary {
+      background: var(--bg-input);
+      color: var(--text-muted);
+    }
+
+    .btn-secondary:hover {
+      color: var(--text);
+      border-color: var(--text-dim);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* ========================================
+       RESULTS CARD
+       ======================================== */
+    .results-area {
+      position: relative;
+    }
+
+    @media (min-width: 860px) {
+      .results-area {
+        position: sticky;
+        top: 24px;
+      }
+    }
+
+    .result-card {
+      text-align: center;
+      padding: 36px 28px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .result-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .result-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .result-percent {
+      font-size: 4.5rem;
+      font-weight: 900;
+      letter-spacing: -3px;
+      line-height: 1;
+      margin-bottom: 4px;
+      color: var(--accent);
+      transition: color var(--transition);
+    }
+
+    .result-percent .unit {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .result-count {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      font-weight: 500;
+    }
+
+    .result-count strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    /* Rarity badge */
+    .rarity-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 24px;
+      transition: all var(--transition);
+    }
+
+    .rarity-common       { background: rgba(34,197,94,0.12);  color: #22c55e; }
+    .rarity-selective     { background: rgba(59,130,246,0.12); color: #3b82f6; }
+    .rarity-rare          { background: rgba(168,85,247,0.12); color: #a855f7; }
+    .rarity-veryrare      { background: rgba(239,68,68,0.12);  color: #ef4444; }
+    .rarity-unicorn       { background: rgba(245,158,11,0.12); color: #f59e0b; }
+
+    /* Gauge */
+    .gauge-container {
+      margin-bottom: 28px;
+    }
+
+    .gauge-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .gauge-track {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-input);
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .gauge-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1), background 0.5s ease;
+      min-width: 2px;
+    }
+
+    /* Result explanation */
+    .result-explanation {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+      padding: 0 8px;
+    }
+
+    /* Breakdown */
+    .breakdown {
+      text-align: left;
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+    }
+
+    .breakdown-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-dim);
+      margin-bottom: 14px;
+    }
+
+    .breakdown-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 0.82rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .breakdown-item:last-child { border-bottom: none; }
+
+    .breakdown-item .b-name {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .breakdown-item .b-impact {
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .impact-low    { color: var(--green);  background: rgba(34,197,94,0.1); }
+    .impact-med    { color: var(--blue);   background: rgba(59,130,246,0.1); }
+    .impact-high   { color: var(--purple); background: rgba(168,85,247,0.1); }
+    .impact-severe { color: var(--red);    background: rgba(239,68,68,0.1); }
+
+    /* ========================================
+       INFO SECTION
+       ======================================== */
+    .info-section {
+      margin-bottom: 60px;
+    }
+
+    .info-card {
+      padding: 32px;
+    }
+
+    .info-card h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .info-card .disclaimer {
+      margin-top: 16px;
+      padding: 14px 18px;
+      background: var(--accent-soft);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    footer {
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* ========================================
+       INTRO ANIMATION
+       ======================================== */
+    .intro-animate {
+      animation: introFade 0.6s ease both;
+    }
+
+    @keyframes introFade {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-card { animation-delay: 0.15s; }
+
+    /* ========================================
+       SCROLLBAR (webkit)
+       ======================================== */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+    /* ========================================
+       RESPONSIVE TWEAKS
+       ======================================== */
+    @media (max-width: 480px) {
+      .result-percent { font-size: 3.5rem; }
+      .card { padding: 20px; }
+      .header-inner { gap: 10px; }
+      .logo { font-size: 1.3rem; }
+      .tagline { padding-left: 0; margin-top: 2px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================
+       HEADER
+       ============================ -->
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <div class="logo-group">
+          <div class="logo">
+            <div class="logo-icon">📊</div>
+            Indian Standards Calculator
+          </div>
+          <div class="tagline">Estimate how rare your ideal match is in India</div>
+        </div>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+          🌙
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================
+       MAIN CALCULATOR
+       ============================ -->
+  <main class="container">
+    <div class="main-grid">
+
+      <!-- LEFT: FILTERS -->
+      <section class="card intro-animate" aria-label="Filter preferences">
+        <div class="card-title">
+          <span class="icon" style="background:var(--accent-soft);color:var(--accent);">⚙</span>
+          Your Preferences
+        </div>
+
+        <!-- Age Range -->
+        <div class="filter-group">
+          <div class="filter-label">
+            <span class="has-tooltip" data-tooltip="Set the minimum and maximum age range">Age Range</span>
+          </div>
+          <div class="age-row">
+            <div>
+              <label for="ageMin">Min Age</label>
+              <input type="number" id="ageMin" min="18" max="65" value="25" aria-label="Minimum age" />
+            </div>
+            <div>
+              <label for="ageMax">Max Age</label>
+              <input type="number" id="ageMax" min="18" max="65" value="35" aria-label="Maximum age" />
+            </div>
+          </div>
+          <div class="filter-hint" id="ageHint"></div>
+        </div>
+
+        <!-- Marital Status -->
+        <div class="filter-group">
+          <div class="toggle-row">
+            <div class="filter-label">
+              <span>Exclude Married Men</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="excludeMarried" checked aria-label="Exclude married men" />
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+          <div class="filter-hint">Filter out currently married individuals</div>
+        </div>
+
+        <hr class="filter-separator" />
+
+        <!-- Height -->
+        <div class="filter-group">
+          <div class="filter-label">
+            <span class="has-tooltip" data-tooltip="Minimum height preference in centimeters">Minimum Height</span>
+            <span class="value-badge" id="heightValue">170 cm (5′7″)</span>
+          </div>
+          <input type="range" id="height" min="150" max="195" value="170" step="1" aria-label="Minimum height in cm" />
+          <div class="filter-hint">Average Indian male height ≈ 166.5 cm</div>
+        </div>
+
+        <!-- Income -->
+        <div class="filter-group">
+          <div class="filter-label">
+            <span class="has-tooltip" data-tooltip="Minimum annual income in Indian Rupees">Minimum Annual Income</span>
+            <span class="value-badge" id="incomeValue">₹6L</span>
+          </div>
+          <input type="range" id="income" min="0" max="10" value="3" step="1" aria-label="Minimum annual income" />
+          <div class="filter-hint">Slide to set income threshold</div>
+        </div>
+
+        <!-- Education -->
+        <div class="filter-group">
+          <div class="filter-label">
+            <span>Minimum Education</span>
+          </div>
+          <select id="education" aria-label="Minimum education level">
+            <option value="any">Any Education</option>
+            <option value="10th">10th Pass or Higher</option>
+            <option value="12th">12th Pass or Higher</option>
+            <option value="graduate" selected>Graduate (Bachelor's)</option>
+            <option value="postgrad">Postgraduate (Master's+)</option>
+            <option value="professional">Professional Degree (IIT/IIM/MBBS/LLB)</option>
+          </select>
+        </div>
+
+        <!-- City Type -->
+        <div class="filter-group">
+          <div class="filter-label">
+            <span>City Type</span>
+          </div>
+          <select id="cityType" aria-label="City type preference">
+            <option value="any">Any</option>
+            <option value="metro" selected>Metro City</option>
+            <option value="urban">Urban</option>
+            <option value="rural">Rural</option>
+          </select>
+          <div class="filter-hint">Metro: Delhi, Mumbai, Bangalore, etc.</div>
+        </div>
+
+        <hr class="filter-separator" />
+
+        <!-- Religion -->
+        <div class="filter-group">
+          <div class="filter-label">
+            <span>Religion</span>
+          </div>
+          <select id="religion" aria-label="Religion preference">
+            <option value="any" selected>Any Religion</option>
+            <option value="hindu">Hindu</option>
+            <option value="muslim">Muslim</option>
+            <option value="christian">Christian</option>
+            <option value="sikh">Sikh</option>
+            <option value="buddhist">Buddhist</option>
+            <option value="jain">Jain</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <!-- Region -->
+        <div class="filter-group">
+          <div class="filter-label">
+            <span>Region / State</span>
+          </div>
+          <select id="region" aria-label="Region preference">
+            <option value="any" selected>Any Region</option>
+            <option value="north">North India</option>
+            <option value="south">South India</option>
+            <option value="west">West India</option>
+            <option value="east">East India</option>
+            <option value="northeast">Northeast India</option>
+            <option value="central">Central India</option>
+          </select>
+        </div>
+
+        <hr class="filter-separator" />
+
+        <!-- Smoking -->
+        <div class="filter-group">
+          <div class="toggle-row">
+            <div class="filter-label">
+              <span>Exclude Smokers</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="excludeSmokers" aria-label="Exclude smokers" />
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Drinking -->
+        <div class="filter-group">
+          <div class="toggle-row">
+            <div class="filter-label">
+              <span>Exclude Drinkers</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="excludeDrinkers" aria-label="Exclude drinkers" />
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Fitness -->
+        <div class="filter-group">
+          <div class="toggle-row">
+            <div class="filter-label">
+              <span class="has-tooltip" data-tooltip="Filter for men who are not classified as obese (BMI < 30)">Exclude Obese</span>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="excludeObese" aria-label="Exclude obese" />
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <hr class="filter-separator" />
+
+        <!-- Language -->
+        <div class="filter-group">
+          <div class="filter-label">
+            <span>Language Preference</span>
+          </div>
+          <select id="language" aria-label="Language preference">
+            <option value="any" selected>Any Language</option>
+            <option value="hindi">Hindi</option>
+            <option value="english">English-speaking</option>
+            <option value="tamil">Tamil</option>
+            <option value="telugu">Telugu</option>
+            <option value="bengali">Bengali</option>
+            <option value="marathi">Marathi</option>
+            <option value="kannada">Kannada</option>
+            <option value="gujarati">Gujarati</option>
+            <option value="malayalam">Malayalam</option>
+            <option value="punjabi">Punjabi</option>
+          </select>
+        </div>
+
+        <!-- Profession -->
+        <div class="filter-group">
+          <div class="filter-label">
+            <span>Profession Category</span>
+          </div>
+          <select id="profession" aria-label="Profession category">
+            <option value="any" selected>Any Profession</option>
+            <option value="tech">Tech / IT / Software</option>
+            <option value="medical">Medical / Healthcare</option>
+            <option value="government">Government / PSU</option>
+            <option value="business">Business / Entrepreneur</option>
+            <option value="finance">Finance / Banking</option>
+            <option value="legal">Legal / Law</option>
+            <option value="creative">Creative / Media</option>
+            <option value="academia">Academia / Research</option>
+          </select>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-row">
+          <button class="btn btn-primary" id="defaultsBtn" aria-label="Apply realistic default values">
+            ✨ Realistic Defaults
+          </button>
+          <button class="btn btn-secondary" id="resetBtn" aria-label="Reset all filters">
+            ↺ Reset All
+          </button>
+        </div>
+      </section>
+
+      <!-- RIGHT: RESULTS -->
+      <div class="results-area">
+        <section class="card result-card intro-animate" aria-label="Results">
+          <div class="result-label">Your Match Pool</div>
+          <div class="result-percent" id="resultPercent">
+            100<span class="unit">%</span>
+          </div>
+          <div class="result-count" id="resultCount">
+            ≈ <strong>500,000,000</strong> men in India
+          </div>
+
+          <div class="rarity-badge rarity-common" id="rarityBadge">
+            <span id="rarityIcon">🟢</span>
+            <span id="rarityText">Common</span>
+          </div>
+
+          <div class="gauge-container">
+            <div class="gauge-label-row">
+              <span>Everyone</span>
+              <span>Unicorn</span>
+            </div>
+            <div class="gauge-track">
+              <div class="gauge-fill" id="gaugeFill" style="width:100%; background:var(--green);"></div>
+            </div>
+          </div>
+
+          <div class="result-explanation" id="resultExplanation">
+            Based on your selected filters, approximately 100% of Indian men may match these criteria.
+          </div>
+
+          <div class="breakdown" id="breakdownSection">
+            <div class="breakdown-title">Filter Impact Breakdown</div>
+            <div id="breakdownList"></div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+
+    <!-- ============================
+         INFO SECTION
+         ============================ -->
+    <section class="info-section intro-animate">
+      <div class="card info-card">
+        <h2>ℹ️ How This Works</h2>
+        <p>
+          This calculator uses <strong>multiplicative filtering</strong> — each preference you select reduces the
+          total pool of Indian men by the estimated proportion who meet that criterion. The filters are applied
+          independently (as if each trait were statistically unrelated), which gives a rough estimate of how selective
+          your combined preferences are.
+        </p>
+        <p>
+          The demographic assumptions used here are <strong>simplified approximations</strong> based on publicly
+          available data from the Census of India, NFHS surveys, and other demographic studies. They are meant
+          to give you a feel for relative rarity — not an exact count.
+        </p>
+        <div class="disclaimer">
+          <strong>⚠️ Disclaimer:</strong> This is a demo project for entertainment and educational purposes only.
+          The data model is illustrative and not suitable for real matchmaking decisions. Results should not be
+          interpreted as precise statistics. No personal data is collected or stored. The assumptions can be
+          replaced with real datasets for greater accuracy.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================
+       FOOTER
+       ============================ -->
+  <footer>
+    <div class="container">
+      Demo project inspired by demographic standards calculators, adapted for India.
+    </div>
+  </footer>
+
+  <script>
+    /* ================================================
+       ============ ASSUMPTIONS DATA ===================
+       ================================================
+       These are simplified demographic estimates for
+       Indian men. Replace with real data for accuracy.
+       ================================================ */
+
+    const ASSUMPTIONS = {
+      // Total male population estimate (18+ men in India, approx.)
+      totalMalePopulation: 500_000_000,
+
+      // ---- AGE ----
+      // Percentage of 18+ males in each age band
+      ageBands: {
+        '18-24': 0.22,
+        '25-29': 0.14,
+        '30-34': 0.12,
+        '35-39': 0.11,
+        '40-44': 0.10,
+        '45-49': 0.09,
+        '50-54': 0.08,
+        '55-59': 0.06,
+        '60-65': 0.08,
+      },
+
+      // ---- MARITAL STATUS ----
+      // Percentage of men who are UNMARRIED by age band
+      unmarriedByAge: {
+        '18-24': 0.82,
+        '25-29': 0.45,
+        '30-34': 0.15,
+        '35-39': 0.06,
+        '40-44': 0.04,
+        '45-49': 0.03,
+        '50-54': 0.03,
+        '55-59': 0.02,
+        '60-65': 0.02,
+      },
+
+      // ---- HEIGHT ----
+      // Percentage of Indian men ABOVE a given height (cm)
+      heightAbove: {
+        150: 0.98,
+        155: 0.93,
+        160: 0.80,
+        165: 0.58,
+        167: 0.48,
+        170: 0.35,
+        173: 0.22,
+        175: 0.15,
+        178: 0.08,
+        180: 0.05,
+        183: 0.025,
+        185: 0.012,
+        188: 0.005,
+        190: 0.002,
+        193: 0.0008,
+        195: 0.0003,
+      },
+
+      // ---- INCOME (Annual, INR) ----
+      // Percentage of working-age men earning ABOVE a threshold
+      incomeAbove: {
+        0:          1.00,    // 0 — no filter
+        200000:     0.55,    // 2L
+        400000:     0.32,    // 4L
+        600000:     0.20,    // 6L
+        800000:     0.13,    // 8L
+        1000000:    0.085,   // 10L
+        1500000:    0.05,    // 15L
+        2500000:    0.025,   // 25L
+        5000000:    0.008,   // 50L
+        10000000:   0.003,   // 1Cr
+        25000000:   0.0008,  // 2.5Cr
+      },
+
+      // Income slider positions (index → value)
+      incomeSteps: [
+        0, 200000, 400000, 600000, 800000,
+        1000000, 1500000, 2500000, 5000000, 10000000, 25000000
+      ],
+
+      // ---- EDUCATION ----
+      education: {
+        any:          1.00,
+        '10th':       0.65,
+        '12th':       0.45,
+        graduate:     0.22,
+        postgrad:     0.08,
+        professional: 0.025,
+      },
+
+      // ---- CITY TYPE ----
+      cityType: {
+        any:   1.00,
+        metro: 0.12,
+        urban: 0.23,
+        rural: 0.65,
+      },
+
+      // ---- RELIGION ----
+      religion: {
+        any:       1.00,
+        hindu:     0.795,
+        muslim:    0.143,
+        christian: 0.024,
+        sikh:      0.017,
+        buddhist:  0.008,
+        jain:      0.004,
+        other:     0.009,
+      },
+
+      // ---- REGION ----
+      region: {
+        any:       1.00,
+        north:     0.28,
+        south:     0.21,
+        west:      0.20,
+        east:      0.20,
+        northeast: 0.04,
+        central:   0.07,
+      },
+
+      // ---- SMOKING ----
+      // ~28% of Indian men smoke (WHO/GATS)
+      nonSmokerRate: 0.72,
+
+      // ---- DRINKING ----
+      // ~30% of Indian men consume alcohol
+      nonDrinkerRate: 0.70,
+
+      // ---- OBESITY ----
+      // ~5% obese (BMI≥30), ~20% overweight
+      nonObeseRate: 0.95,
+
+      // ---- LANGUAGE ----
+      language: {
+        any:       1.00,
+        hindi:     0.44,
+        english:   0.12,
+        bengali:   0.08,
+        telugu:    0.07,
+        marathi:   0.07,
+        tamil:     0.06,
+        gujarati:  0.046,
+        kannada:   0.038,
+        malayalam: 0.03,
+        punjabi:   0.03,
+      },
+
+      // ---- PROFESSION ----
+      profession: {
+        any:        1.00,
+        tech:       0.04,
+        medical:    0.015,
+        government: 0.05,
+        business:   0.12,
+        finance:    0.025,
+        legal:      0.008,
+        creative:   0.015,
+        academia:   0.012,
+      },
+    };
+
+    /* ================================================
+       ============ DOM REFERENCES =====================
+       ================================================ */
+
+    const $ = (id) => document.getElementById(id);
+
+    const els = {
+      ageMin:         $('ageMin'),
+      ageMax:         $('ageMax'),
+      ageHint:        $('ageHint'),
+      excludeMarried: $('excludeMarried'),
+      height:         $('height'),
+      heightValue:    $('heightValue'),
+      income:         $('income'),
+      incomeValue:    $('incomeValue'),
+      education:      $('education'),
+      cityType:       $('cityType'),
+      religion:       $('religion'),
+      region:         $('region'),
+      excludeSmokers: $('excludeSmokers'),
+      excludeDrinkers:$('excludeDrinkers'),
+      excludeObese:   $('excludeObese'),
+      language:       $('language'),
+      profession:     $('profession'),
+      defaultsBtn:    $('defaultsBtn'),
+      resetBtn:       $('resetBtn'),
+      resultPercent:  $('resultPercent'),
+      resultCount:    $('resultCount'),
+      rarityBadge:    $('rarityBadge'),
+      rarityIcon:     $('rarityIcon'),
+      rarityText:     $('rarityText'),
+      gaugeFill:      $('gaugeFill'),
+      resultExplanation: $('resultExplanation'),
+      breakdownList:  $('breakdownList'),
+      themeToggle:    $('themeToggle'),
+    };
+
+    /* ================================================
+       ============ FORM LOGIC =========================
+       ================================================ */
+
+    function formatIncome(val) {
+      if (val === 0)        return 'No min';
+      if (val >= 10000000)  return '₹' + (val / 10000000).toFixed(1) + 'Cr';
+      if (val >= 100000)    return '₹' + (val / 100000).toFixed(0) + 'L';
+      return '₹' + val.toLocaleString('en-IN');
+    }
+
+    function cmToFeetInches(cm) {
+      const totalInches = cm / 2.54;
+      const feet = Math.floor(totalInches / 12);
+      const inches = Math.round(totalInches % 12);
+      return `${feet}′${inches}″`;
+    }
+
+    function updateSliderLabels() {
+      const h = parseInt(els.height.value);
+      els.heightValue.textContent = `${h} cm (${cmToFeetInches(h)})`;
+      const incIdx = parseInt(els.income.value);
+      const incVal = ASSUMPTIONS.incomeSteps[incIdx];
+      els.incomeValue.textContent = formatIncome(incVal);
+    }
+
+    // Age validation
+    function validateAge() {
+      let min = parseInt(els.ageMin.value) || 18;
+      let max = parseInt(els.ageMax.value) || 65;
+      if (min < 18) { min = 18; els.ageMin.value = 18; }
+      if (max > 65) { max = 65; els.ageMax.value = 65; }
+      if (min > max) {
+        els.ageHint.textContent = '⚠ Min age cannot exceed max age';
+        els.ageHint.style.color = 'var(--red)';
+        els.ageMax.value = min;
+        max = min;
+      } else {
+        els.ageHint.textContent = '';
+        els.ageHint.style.color = '';
+      }
+      return { min, max };
+    }
+
+    /* ================================================
+       ============ CALCULATIONS =======================
+       ================================================ */
+
+    // Interpolate height fraction for values between known data points
+    function interpolateHeight(cm) {
+      const entries = Object.entries(ASSUMPTIONS.heightAbove)
+        .map(([k, v]) => [parseInt(k), v])
+        .sort((a, b) => a[0] - b[0]);
+
+      // Exact match
+      for (const [h, f] of entries) {
+        if (h === cm) return f;
+      }
+
+      // Below lowest
+      if (cm <= entries[0][0]) return entries[0][1];
+      // Above highest
+      if (cm >= entries[entries.length - 1][0]) return entries[entries.length - 1][1];
+
+      // Find bracketing entries and linearly interpolate
+      for (let i = 0; i < entries.length - 1; i++) {
+        const [loH, loF] = entries[i];
+        const [hiH, hiF] = entries[i + 1];
+        if (cm > loH && cm < hiH) {
+          const t = (cm - loH) / (hiH - loH);
+          return loF + (hiF - loF) * t;
+        }
+      }
+      return 0.01; // fallback (should never reach)
+    }
+
+    function getAgeFraction(minAge, maxAge) {
+      const bands = ASSUMPTIONS.ageBands;
+      let fraction = 0;
+      const bandRanges = [
+        { key: '18-24', lo: 18, hi: 24 },
+        { key: '25-29', lo: 25, hi: 29 },
+        { key: '30-34', lo: 30, hi: 34 },
+        { key: '35-39', lo: 35, hi: 39 },
+        { key: '40-44', lo: 40, hi: 44 },
+        { key: '45-49', lo: 45, hi: 49 },
+        { key: '50-54', lo: 50, hi: 54 },
+        { key: '55-59', lo: 55, hi: 59 },
+        { key: '60-65', lo: 60, hi: 65 },
+      ];
+      for (const band of bandRanges) {
+        const overlapLo = Math.max(minAge, band.lo);
+        const overlapHi = Math.min(maxAge, band.hi);
+        if (overlapLo <= overlapHi) {
+          const bandSpan = band.hi - band.lo + 1;
+          const overlapSpan = overlapHi - overlapLo + 1;
+          fraction += bands[band.key] * (overlapSpan / bandSpan);
+        }
+      }
+      return fraction;
+    }
+
+    function getUnmarriedFractionInRange(minAge, maxAge) {
+      // Weighted average of unmarried rate across overlapping bands
+      const bandRanges = [
+        { key: '18-24', lo: 18, hi: 24 },
+        { key: '25-29', lo: 25, hi: 29 },
+        { key: '30-34', lo: 30, hi: 34 },
+        { key: '35-39', lo: 35, hi: 39 },
+        { key: '40-44', lo: 40, hi: 44 },
+        { key: '45-49', lo: 45, hi: 49 },
+        { key: '50-54', lo: 50, hi: 54 },
+        { key: '55-59', lo: 55, hi: 59 },
+        { key: '60-65', lo: 60, hi: 65 },
+      ];
+      let totalWeight = 0;
+      let weightedUnmarried = 0;
+      for (const band of bandRanges) {
+        const overlapLo = Math.max(minAge, band.lo);
+        const overlapHi = Math.min(maxAge, band.hi);
+        if (overlapLo <= overlapHi) {
+          const bandSpan = band.hi - band.lo + 1;
+          const overlapSpan = overlapHi - overlapLo + 1;
+          const weight = ASSUMPTIONS.ageBands[band.key] * (overlapSpan / bandSpan);
+          weightedUnmarried += weight * ASSUMPTIONS.unmarriedByAge[band.key];
+          totalWeight += weight;
+        }
+      }
+      return totalWeight > 0 ? weightedUnmarried / totalWeight : 0.5;
+    }
+
+    function calculate() {
+      const { min: ageMin, max: ageMax } = validateAge();
+      const filters = [];
+      let pool = 1.0;
+
+      // 1. Age filter
+      const ageFrac = getAgeFraction(ageMin, ageMax);
+      filters.push({ name: 'Age Range', factor: ageFrac });
+      pool *= ageFrac;
+
+      // 2. Marital status
+      if (els.excludeMarried.checked) {
+        const unmarriedFrac = getUnmarriedFractionInRange(ageMin, ageMax);
+        filters.push({ name: 'Unmarried Only', factor: unmarriedFrac });
+        pool *= unmarriedFrac;
+      }
+
+      // 3. Height (with interpolation for in-between cm values)
+      const heightVal = parseInt(els.height.value);
+      const heightFrac = interpolateHeight(heightVal);
+      if (heightVal > 150) {
+        filters.push({ name: `Height ≥ ${heightVal} cm`, factor: heightFrac });
+        pool *= heightFrac;
+      }
+
+      // 4. Income
+      const incIdx = parseInt(els.income.value);
+      const incVal = ASSUMPTIONS.incomeSteps[incIdx];
+      const incomeFrac = ASSUMPTIONS.incomeAbove[incVal] || 1.0;
+      if (incVal > 0) {
+        filters.push({ name: `Income ≥ ${formatIncome(incVal)}`, factor: incomeFrac });
+        pool *= incomeFrac;
+      }
+
+      // 5. Education
+      const eduVal = els.education.value;
+      const eduFrac = ASSUMPTIONS.education[eduVal] || 1.0;
+      if (eduVal !== 'any') {
+        filters.push({ name: `Education: ${els.education.options[els.education.selectedIndex].text}`, factor: eduFrac });
+        pool *= eduFrac;
+      }
+
+      // 6. City type
+      const cityVal = els.cityType.value;
+      const cityFrac = ASSUMPTIONS.cityType[cityVal] || 1.0;
+      if (cityVal !== 'any') {
+        filters.push({ name: `City: ${els.cityType.options[els.cityType.selectedIndex].text}`, factor: cityFrac });
+        pool *= cityFrac;
+      }
+
+      // 7. Religion
+      const relVal = els.religion.value;
+      const relFrac = ASSUMPTIONS.religion[relVal] || 1.0;
+      if (relVal !== 'any') {
+        filters.push({ name: `Religion: ${els.religion.options[els.religion.selectedIndex].text}`, factor: relFrac });
+        pool *= relFrac;
+      }
+
+      // 8. Region
+      const regVal = els.region.value;
+      const regFrac = ASSUMPTIONS.region[regVal] || 1.0;
+      if (regVal !== 'any') {
+        filters.push({ name: `Region: ${els.region.options[els.region.selectedIndex].text}`, factor: regFrac });
+        pool *= regFrac;
+      }
+
+      // 9. Smoking
+      if (els.excludeSmokers.checked) {
+        filters.push({ name: 'Non-smokers Only', factor: ASSUMPTIONS.nonSmokerRate });
+        pool *= ASSUMPTIONS.nonSmokerRate;
+      }
+
+      // 10. Drinking
+      if (els.excludeDrinkers.checked) {
+        filters.push({ name: 'Non-drinkers Only', factor: ASSUMPTIONS.nonDrinkerRate });
+        pool *= ASSUMPTIONS.nonDrinkerRate;
+      }
+
+      // 11. Obesity
+      if (els.excludeObese.checked) {
+        filters.push({ name: 'Not Obese', factor: ASSUMPTIONS.nonObeseRate });
+        pool *= ASSUMPTIONS.nonObeseRate;
+      }
+
+      // 12. Language
+      const langVal = els.language.value;
+      const langFrac = ASSUMPTIONS.language[langVal] || 1.0;
+      if (langVal !== 'any') {
+        filters.push({ name: `Language: ${els.language.options[els.language.selectedIndex].text}`, factor: langFrac });
+        pool *= langFrac;
+      }
+
+      // 13. Profession
+      const profVal = els.profession.value;
+      const profFrac = ASSUMPTIONS.profession[profVal] || 1.0;
+      if (profVal !== 'any') {
+        filters.push({ name: `Profession: ${els.profession.options[els.profession.selectedIndex].text}`, factor: profFrac });
+        pool *= profFrac;
+      }
+
+      return { pool, filters };
+    }
+
+    /* ================================================
+       ============ RENDERING ==========================
+       ================================================ */
+
+    // Rarity tiers
+    function getRarity(percent) {
+      if (percent >= 20)   return { tier: 'Common',    icon: '🟢', cls: 'rarity-common',    color: 'var(--green)' };
+      if (percent >= 5)    return { tier: 'Selective',  icon: '🔵', cls: 'rarity-selective',  color: 'var(--blue)' };
+      if (percent >= 1)    return { tier: 'Rare',       icon: '🟣', cls: 'rarity-rare',       color: 'var(--purple)' };
+      if (percent >= 0.1)  return { tier: 'Very Rare',  icon: '🔴', cls: 'rarity-veryrare',   color: 'var(--red)' };
+      return               { tier: 'Unicorn',   icon: '🦄', cls: 'rarity-unicorn',    color: 'var(--accent)' };
+    }
+
+    function getImpactClass(factor) {
+      if (factor >= 0.8)  return 'impact-low';
+      if (factor >= 0.4)  return 'impact-med';
+      if (factor >= 0.1)  return 'impact-high';
+      return 'impact-severe';
+    }
+
+    // Animation state
+    let animationFrame = null;
+    let currentDisplayPercent = 100;
+    let currentDisplayCount = ASSUMPTIONS.totalMalePopulation;
+
+    function animateResult(targetPercent, targetCount) {
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+
+      const startPercent = currentDisplayPercent;
+      const startCount   = currentDisplayCount;
+      const startTime    = performance.now();
+      const duration     = 600;
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const t = Math.min(elapsed / duration, 1);
+        // Ease out cubic
+        const ease = 1 - Math.pow(1 - t, 3);
+
+        currentDisplayPercent = startPercent + (targetPercent - startPercent) * ease;
+        currentDisplayCount   = startCount + (targetCount - startCount) * ease;
+
+        renderNumbers(currentDisplayPercent, currentDisplayCount);
+
+        if (t < 1) {
+          animationFrame = requestAnimationFrame(step);
+        }
+      }
+
+      animationFrame = requestAnimationFrame(step);
+    }
+
+    function renderNumbers(percent, count) {
+      let displayPercent;
+      if (percent >= 10) {
+        displayPercent = percent.toFixed(1);
+      } else if (percent >= 1) {
+        displayPercent = percent.toFixed(2);
+      } else if (percent >= 0.01) {
+        displayPercent = percent.toFixed(3);
+      } else if (percent >= 0.0001) {
+        displayPercent = percent.toFixed(5);
+      } else {
+        displayPercent = percent.toExponential(1);
+      }
+
+      els.resultPercent.innerHTML = `${displayPercent}<span class="unit">%</span>`;
+
+      const countNum = Math.round(count);
+      let countStr;
+      if (countNum >= 10000000) {
+        countStr = (countNum / 10000000).toFixed(1) + ' crore';
+      } else if (countNum >= 100000) {
+        countStr = (countNum / 100000).toFixed(1) + ' lakh';
+      } else {
+        countStr = countNum.toLocaleString('en-IN');
+      }
+      els.resultCount.innerHTML = `≈ <strong>${countStr}</strong> men in India`;
+    }
+
+    function renderResult() {
+      const { pool, filters } = calculate();
+      const percent = pool * 100;
+      const count   = pool * ASSUMPTIONS.totalMalePopulation;
+      const rarity  = getRarity(percent);
+
+      // Animate numbers
+      animateResult(percent, count);
+
+      // Rarity badge
+      els.rarityBadge.className = `rarity-badge ${rarity.cls}`;
+      els.rarityIcon.textContent = rarity.icon;
+      els.rarityText.textContent = rarity.tier;
+
+      // Gauge — log scale for visual spread
+      // Clamp percent to [0.0001, 100] to avoid log(0)
+      const clampedPct = Math.max(0.0001, Math.min(100, percent));
+      const logVal = Math.log10(clampedPct);
+      const logMin = -4;  // log10(0.0001)
+      const logMax = 2;   // log10(100)
+      const gaugeWidth = Math.max(2, Math.min(100, ((logVal - logMin) / (logMax - logMin)) * 100));
+      els.gaugeFill.style.width = gaugeWidth + '%';
+      els.gaugeFill.style.background = rarity.color;
+
+      // Explanation
+      let percentText;
+      if (percent >= 1) {
+        percentText = percent.toFixed(1) + '%';
+      } else if (percent >= 0.01) {
+        percentText = percent.toFixed(3) + '%';
+      } else {
+        percentText = 'less than 0.01%';
+      }
+      els.resultExplanation.textContent =
+        `Based on your selected filters, approximately ${percentText} of Indian men may match these criteria.`;
+
+      // Breakdown
+      // Sort by impact (lowest factor = most impact)
+      const sorted = [...filters].sort((a, b) => a.factor - b.factor);
+      els.breakdownList.innerHTML = sorted.map(f => {
+        const pct = (f.factor * 100).toFixed(1);
+        const impactCls = getImpactClass(f.factor);
+        return `
+          <div class="breakdown-item">
+            <span class="b-name">${f.name}</span>
+            <span class="b-impact ${impactCls}">${pct}% pass</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    /* ================================================
+       ============ EVENT LISTENERS ====================
+       ================================================ */
+
+    // All inputs that should trigger recalculation
+    const allInputs = [
+      els.ageMin, els.ageMax, els.excludeMarried,
+      els.height, els.income, els.education,
+      els.cityType, els.religion, els.region,
+      els.excludeSmokers, els.excludeDrinkers, els.excludeObese,
+      els.language, els.profession,
+    ];
+
+    allInputs.forEach(el => {
+      el.addEventListener('input', () => {
+        updateSliderLabels();
+        renderResult();
+      });
+      el.addEventListener('change', () => {
+        updateSliderLabels();
+        renderResult();
+      });
+    });
+
+    // Realistic defaults
+    els.defaultsBtn.addEventListener('click', () => {
+      els.ageMin.value         = 25;
+      els.ageMax.value         = 32;
+      els.excludeMarried.checked = true;
+      els.height.value         = 170;
+      els.income.value         = 4;    // ₹8L
+      els.education.value      = 'graduate';
+      els.cityType.value       = 'metro';
+      els.religion.value       = 'any';
+      els.region.value         = 'any';
+      els.excludeSmokers.checked  = true;
+      els.excludeDrinkers.checked = false;
+      els.excludeObese.checked    = false;
+      els.language.value       = 'any';
+      els.profession.value     = 'any';
+      updateSliderLabels();
+      renderResult();
+    });
+
+    // Reset all
+    els.resetBtn.addEventListener('click', () => {
+      els.ageMin.value         = 18;
+      els.ageMax.value         = 65;
+      els.excludeMarried.checked = false;
+      els.height.value         = 150;
+      els.income.value         = 0;
+      els.education.value      = 'any';
+      els.cityType.value       = 'any';
+      els.religion.value       = 'any';
+      els.region.value         = 'any';
+      els.excludeSmokers.checked  = false;
+      els.excludeDrinkers.checked = false;
+      els.excludeObese.checked    = false;
+      els.language.value       = 'any';
+      els.profession.value     = 'any';
+      updateSliderLabels();
+      renderResult();
+    });
+
+    // Theme toggle
+    els.themeToggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      els.themeToggle.textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('isc-theme', isDark ? 'light' : 'dark');
+    });
+
+    // Load saved theme
+    (function loadTheme() {
+      const saved = localStorage.getItem('isc-theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+        els.themeToggle.textContent = saved === 'dark' ? '🌙' : '☀️';
+      }
+    })();
+
+    /* ================================================
+       ============ INITIAL RENDER =====================
+       ================================================ */
+    updateSliderLabels();
+    renderResult();
+  </script>
+</body>
+</html>
